@@ -1,0 +1,65 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f7fc; /* Light background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px; /* Space around the content */
+    color: #333;
+}
+
+/* Logout Message Container */
+form {
+    background-color: #ffffff;
+    padding: 40px; /* Padding inside the form */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    width: 350px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* Heading for Logout */
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Text Styling */
+p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+a {
+    color: #2575fc; /* Blue color */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    form {
+        width: 90%; /* Make the form more responsive on small screens */
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,106 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #ffffff, #ffffff); /* Gradient background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px; /* Space around the content */
+    color: #fff;
+}
+
+/* Register Form Container */
+form {
+    background-color: #ffffff;
+    padding: 40px; /* Space inside the form */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    width: 350px;
+    
+    text-align: center;
+}
+
+/* Form Title */
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    margin-right: 150px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+/* 
+/* Form Fields */
+
+form p {
+    margin-bottom: 0px; /* Space between fields */
+    text-align: left;
+    font-size: 0px;
+    color: #555;
+} 
+
+form label {
+    display: block;
+    margin-bottom: px;
+    font-size: 14px;
+    color: #666;
+}
+
+form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    margin-bottom: 5px;
+    transition: border-color 0.3s;
+}
+
+form input:focus {
+    border-color: #2575fc;
+    outline: none;
+    box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+}
+
+/* Button Styling */
+form button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+form button:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb); /* Reverse gradient */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(37, 117, 252, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    form {
+        width: 90%; /* Adjust container size for smaller screens */
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,20 @@
+{%load static%}
+<html>
+<head>
+    <link rel="stylesheet"  href="{% static 'css/logout.css' %}">
+</head>
+<body>
+    
+
+<form method="get">
+
+   
+
+    {%if not user.is_authenticated%}
+    <h2> You Are  Out</h2>
+    {%endif%}
+    <a href="{%url 'login'%}">Login Again </a>
+</form>
+</body>
+
+</html>
