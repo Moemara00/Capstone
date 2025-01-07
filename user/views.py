@@ -5,15 +5,14 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth import logout
 from django.shortcuts import render,HttpResponse
-import user.form as form 
-
+from .forms import CustomUserCreationForm
 
 class RegisterView(CreateView):
     form_class = UserCreationForm
     queryset = User.objects.all()
     template_name = 'register.html'
     success_url = reverse_lazy('login')
-    form_class = form.RegisterForm
+    form_class = CustomUserCreationForm
 
     def form_valid(self, form):
 

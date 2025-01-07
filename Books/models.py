@@ -11,9 +11,9 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     published_date = models.DateField()
     ISBN = models.IntegerField(unique=True)
-    available_copies = models.PositiveIntegerField(default=100)
+    available_copies = models.PositiveIntegerField(default=1)
     links = models.URLField(null=True)
-
+    
 
     def check_out(self):
 
@@ -46,3 +46,10 @@ class CheckOut(models.Model):
     
     class Meta:
         unique_together = ('user','book') # check that one user can check out one copy of each book 
+
+
+
+class BookWaitlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    notified = models.BooleanField(default=False)

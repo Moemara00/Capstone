@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Book, CheckOut
-from .serializers import BookAdminSerializer, CheckOutSerializer,BookUserSerializer
+from .models import Book, CheckOut, BookWaitlist
+from .serializers import BookAdminSerializer, CheckOutSerializer,BookUserSerializer,UnCheckOutSerializer
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import BasePermission
 from django.utils import timezone
@@ -14,6 +14,7 @@ from rest_framework.exceptions import PermissionDenied
 import datetime
 from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView , RetrieveAPIView
+from .utils import send_email_notification
 # Create your views here.
 
 
@@ -79,6 +80,7 @@ class CheckOutView(viewsets.ModelViewSet,LoginRequiredMixin):
     queryset = CheckOut.objects.all()
     serializer_class = CheckOutSerializer
     permission_classes = [permissions.IsAuthenticated]
+    
     def get_queryset(self):
         user = self.request.user
         return CheckOut.objects.filter(user=user)
@@ -97,23 +99,26 @@ class CheckOutView(viewsets.ModelViewSet,LoginRequiredMixin):
         # Check if the book is available or not 
 
         if book.available_copies <= 0:
-            raise ValidationError("This book is not available")
-        
+            
+            #  BookWaitlist.objects.get_or_create(user=self.request.user, book=book)
+             raise ValidationError("This book is currently unavailable.")
+            
+
         # Check if the book already checked out
 
         # the book is checked out and returned 
         check_out = CheckOut.objects.filter(user=user,book=book,return_date__isnull=False).first()
 
         if check_out:
-                # raise ValidationError("You checked and returned the book , please choose another item !")
-                book.check_out() # reduce one from available copies in the Book model 
-                serializer.save(user=user) # save the records in the CheckOut model 
+                raise ValidationError("You checked and returned the book , please choose another item !")
+             
 
         if CheckOut.objects.filter(user=user,book=book,return_date__isnull=True).exists():
             raise ValidationError("You already checked the book out")
 
 
-
+        book.check_out() # reduce one from available copies in the Book model 
+        serializer.save(user=user) # save the records in the CheckOut model 
       
         
       
@@ -123,7 +128,7 @@ class CheckOutView(viewsets.ModelViewSet,LoginRequiredMixin):
 class UnCheckOutView(viewsets.ModelViewSet,LoginRequiredMixin):
 
     queryset = CheckOut.objects.all()
-    serializer_class = CheckOutSerializer
+    serializer_class = UnCheckOutSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -158,6 +163,11 @@ class UnCheckOutView(viewsets.ModelViewSet,LoginRequiredMixin):
             # 2- update the return date in the CheckOut model to be like the timezone and save this
         if checked_out:
             book.return_book()
-            return_date = timezone.now()
-            checked_out.return_date = return_date
+            date_returned = timezone.now()
+            checked_out.return_date = date_returned
+            # wating_users = BookWaitlist.objects.filter(book=book,notified=False)
+            # send_email_notification([user.user for user in wating_users],book)
+            # wating_users.update(notified = True)
+            
             checked_out.save()
+            return Response({"Message": "The book returned successfully !"})

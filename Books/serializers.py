@@ -6,12 +6,6 @@ from django.contrib.auth.models import User
 
 
 
-
-
-
-
-
-
 class BookUserSerializer(serializers.ModelSerializer):
     available_copies = serializers.IntegerField(read_only = True)
     
@@ -74,10 +68,11 @@ class CheckOutSerializer(serializers.ModelSerializer):
     # book = serializers.SerializerMethodField(read_only = True)
     book_link = serializers.SerializerMethodField(read_only=True)
     Check_id  = serializers.SerializerMethodField(read_only= True)
+    book_title = serializers.SerializerMethodField(read_only= True)
     class Meta:  
         model = CheckOut
         
-        fields = ['check_out_date','return_date','book','book_link','Check_id']
+        fields = ['check_out_date','return_date','book','book_link','Check_id','book_title']
         read_only_fields = ['check_out_date','return_date','book_link','Check_id']
 
    
@@ -85,6 +80,7 @@ class CheckOutSerializer(serializers.ModelSerializer):
     #         return obj.book.title
     
     def get_book_link(self,obj):
+         
          if obj.return_date:
               return False
          return obj.book.links
@@ -92,6 +88,18 @@ class CheckOutSerializer(serializers.ModelSerializer):
 
     def get_Check_id(self,obj):
         return obj.id
-    
-    def create(self, validated_data):
-        return super().create(validated_data)
+  
+
+    def get_book_title(self,obj):
+        return obj.book.title
+
+
+
+
+class UnCheckOutSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CheckOut
+        fields = ['book','check_out_date','return_date']
+        read_only_fields = ['check_out_date','return_date']
+
